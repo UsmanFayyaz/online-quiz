@@ -1,38 +1,67 @@
-.App {
+#header{
+  height: 60px;
   text-align: center;
+  margin: 0;
+  background-color: #020718;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#title{
+  margin: 0px;
+  color: white;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#questionsContainer{
+  width: 75%;
+  margin: 0 auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.imagesForQuestion{
+  width: 40%;
+}
+
+.questionBody{
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid black;
+  margin-bottom: 20px;
+}
+
+.questionNumber{
+  display: contents;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+form{
+  background-color: white;  
+  padding: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+#titleOfTheAssesment{
+  text-align: center;
+}
+
+
+body{
+  background-color: #ebecf1;
+}
+
+.options{
+  margin-top: 20px;
+}
+
+.questionText{
+  font-weight: bold;
+}
+
+td, table{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table{
+  width: 80%;
 }
