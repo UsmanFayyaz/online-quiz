@@ -13,6 +13,10 @@
   transform: translateY(-50%);
 }
 
+.marks{
+  margin-top: 0px;
+}
+
 #questionsContainer{
   width: 75%;
   margin: 0 auto;
@@ -55,6 +59,7 @@ body{
 
 .questionText{
   font-weight: bold;
+  margin-bottom: 0px;
 }
 
 td, table{

@@ -11,7 +11,8 @@ class Questions extends React.Component {
           "Labour is output made by an employee.",
           "Land includes commercially grown rice crops.",
           "Profit is the reward for enterprise."
-        ]
+        ],
+        marks: "2"
       },
       {
         question: "The diagram shows two production possibility curves. Which statement about the movement from point X to point Y is correct?",
@@ -20,7 +21,8 @@ class Questions extends React.Component {
           "The opportunity cost for producing consumer goods has risen.",
           "There has been an increase in productivity in consumer goods production.",
           "There has been an inward shift in the production possibility curve."
-        ]
+        ],
+        marks: "5"
       },
       {
         question: "A railway company increases ticket prices by 10% for travel between 06:00 and 09:00, causing a reduction in demand by 2%. After 09:00 it reduces ticket prices by 5%, resulting in a 7% increase in demand. What is the price elasticity of demand in response to these price changes?",
@@ -29,7 +31,8 @@ class Questions extends React.Component {
           "Earnings are related to the level of skill.",
           "It may be difficult to find work locally.",
           "Labour supply is elastic and plentiful."
-        ]
+        ],
+        marks: "2"
       }
     ];
     console.log(data);
@@ -40,6 +43,7 @@ class Questions extends React.Component {
           <div className="questionBody">
             <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>1.</span></h5>
             <p className="questionText">{data[0].question}</p>
+            <p className="marks">({data[0].marks} marks)</p>
 
             <div className="options">
               <input type="radio" id="q1option1" name="q1correctAnswer" value="q1option1" />
@@ -56,6 +60,7 @@ class Questions extends React.Component {
           <div className="questionBody">
             <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>2.</span></h5>
             <p className="questionText">{data[1].question}</p>
+            <p className="marks">({data[1].marks} marks)</p>
             <img className="imagesForQuestion" src={require('../questionImage.png')} alt="question description" /><br />
 
             <div className="options">
@@ -73,6 +78,7 @@ class Questions extends React.Component {
           <div className="questionBody">
             <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>3.</span></h5>
             <p className="questionText">{data[2].question}</p>
+            <p className="marks">({data[2].marks} marks)</p>
             <table>
               <thead>
                 <tr>
