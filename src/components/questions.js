@@ -5,7 +5,10 @@ class Questions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentQuestion: 2,
+      currentQuestion: 0,
+      minutes: 2,
+      seconds: 0,
+      isSubmit: "Next",
       data: [
         {
           question: "Which statement about factors of production is correct?",
@@ -58,19 +61,61 @@ class Questions extends React.Component {
     this.decrement = this.decrement.bind(this);
   };
 
+  componentDidMount() {
+    this.myInterval = setInterval(() => {
+      const { seconds, minutes } = this.state
+
+      if (seconds > 0) {
+        this.setState(({ seconds }) => ({
+          seconds: seconds - 1
+        }))
+      }
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(this.myInterval)
+        } else {
+          this.setState(({ minutes }) => ({
+            minutes: minutes - 1,
+            seconds: 59
+          }))
+        }
+      }
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.myInterval)
+  }
+
   increment() {
-    if (this.state.currentQuestion < this.state.data.length - 1) {
-      this.setState(state => ({
-        currentQuestion: state.currentQuestion + 1
-      }));
+    if (this.state.isSubmit !== "Submit") {
+      if (this.state.currentQuestion < this.state.data.length - 1) {
+        this.setState(state => ({
+          currentQuestion: state.currentQuestion + 1
+        }));
+      }
+      if (this.state.currentQuestion === this.state.data.length - 2) {
+        this.setState(state => ({
+          isSubmit: "Submit"
+        }))
+      }
+    } else {
+      if (window.confirm("Are you sure, you want to submit the quiz.")) {
+        alert("Quiz submitted successfuly");
+      }
     }
+
   }
   decrement() {
-
     if (this.state.currentQuestion !== 0) {
       this.setState(state => ({
         currentQuestion: state.currentQuestion - 1
       }));
+    }
+    if (this.state.currentQuestion <= this.state.data.length - 1) {
+      this.setState(state => ({
+        isSubmit: "Next"
+      }))
     }
   }
 
@@ -85,11 +130,18 @@ class Questions extends React.Component {
   }
 
   render() {
+    const { minutes, seconds } = this.state;
     return (
       <div id="questionsContainer">
         <h2 id="titleOfTheAssesment">Ecnomics Quiz-1</h2>
+        <div>
+          <h4 id="totalQuestions">Total Questions: {this.state.data.length}</h4>
+          {minutes === 0 && seconds === 0
+            ? <h4 id="timer">Time over!</h4>
+            : <h4 id="timer">Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h4>
+          }
+        </div>
         <form>
-
           {(this.state.data[this.state.currentQuestion].image === null && this.state.data[this.state.currentQuestion].table === null) ? (
             <div className="questionBody">
               <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>{this.state.currentQuestion + 1}.</span></h5>
@@ -151,8 +203,8 @@ class Questions extends React.Component {
           }
 
           <div>
-            <button type="button" onClick={this.increment}>Next</button>
             <button type="button" onClick={this.decrement}>Previous</button>
+            <button type="button" onClick={this.increment}>{this.state.isSubmit}</button>
           </div>
         </form>
       </div>
