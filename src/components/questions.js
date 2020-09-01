@@ -88,13 +88,14 @@ class Questions extends React.Component {
   }
 
   increment() {
+    const { data, currentQuestion } = this.state;
     if (this.state.isSubmit !== "Submit") {
-      if (this.state.currentQuestion < this.state.data.length - 1) {
+      if (currentQuestion < data.length - 1) {
         this.setState(state => ({
           currentQuestion: state.currentQuestion + 1
         }));
       }
-      if (this.state.currentQuestion === this.state.data.length - 2) {
+      if (currentQuestion === data.length - 2) {
         this.setState(state => ({
           isSubmit: "Submit"
         }))
@@ -107,12 +108,13 @@ class Questions extends React.Component {
 
   }
   decrement() {
-    if (this.state.currentQuestion !== 0) {
+    const { data, currentQuestion } = this.state;
+    if (currentQuestion !== 0) {
       this.setState(state => ({
         currentQuestion: state.currentQuestion - 1
       }));
     }
-    if (this.state.currentQuestion <= this.state.data.length - 1) {
+    if (currentQuestion <= data.length - 1) {
       this.setState(state => ({
         isSubmit: "Next"
       }))
@@ -120,8 +122,9 @@ class Questions extends React.Component {
   }
 
   renderTableData() {
+    const { data, currentQuestion } = this.state;
     return (
-      this.state.data[this.state.currentQuestion].table.map(function (row, index) {
+      data[currentQuestion].table.map(function (row, index) {
         return <tr key={index}>{(row.map(function (cell, ind) {
           return <td key={ind}>{cell}</td>
         }))}</tr>
@@ -129,82 +132,68 @@ class Questions extends React.Component {
     )
   }
 
+  renderOptions() {
+    const { data, currentQuestion } = this.state;
+    return (
+      data[currentQuestion].answer.map(function (value, index) {
+        return (
+          <div key={index}>
+            <input type="radio" id={"q" + index + "option" + index} name="q1correctAnswer" value={"q" + index + "option" + index} />
+            <label className="option" htmlFor={"q" + index + "option" + index}>{data[currentQuestion].answer[index]}</label> <br />
+          </div>
+        )
+      })
+    )
+  }
+
   render() {
-    const { minutes, seconds } = this.state;
+    const { minutes, seconds, data, currentQuestion } = this.state;
     return (
       <div id="questionsContainer">
         <h2 id="titleOfTheAssesment">Ecnomics Quiz-1</h2>
         <div>
-          <h4 id="totalQuestions">Total Questions: {this.state.data.length}</h4>
+          <h4 id="totalQuestions">Total Questions: {data.length}</h4>
           {minutes === 0 && seconds === 0
             ? <h4 id="timer">Time over!</h4>
             : <h4 id="timer">Time Remaining: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h4>
           }
         </div>
         <form>
-          {(this.state.data[this.state.currentQuestion].image === null && this.state.data[this.state.currentQuestion].table === null) ? (
+          {(data[currentQuestion].image === null && data[currentQuestion].table === null) ? (
             <div className="questionBody">
-              <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>{this.state.currentQuestion + 1}.</span></h5>
-              <p className="questionText">{this.state.data[this.state.currentQuestion].question}</p>
-              <p className="marks">({this.state.data[this.state.currentQuestion].marks} marks)</p>
-
-              <div className="options">
-                <input type="radio" id="q1option1" name="q1correctAnswer" value="q1option1" />
-                <label htmlFor="q1option1">{this.state.data[this.state.currentQuestion].answer[0]}</label><br />
-                <input type="radio" id="q1option2" name="q1correctAnswer" value="q1option2"></input>
-                <label htmlFor="q1option2">{this.state.data[this.state.currentQuestion].answer[1]}</label><br />
-                <input type="radio" id="q1option3" name="q1correctAnswer" value="q1option3"></input>
-                <label htmlFor="q1option3">{this.state.data[this.state.currentQuestion].answer[2]}</label><br />
-                <input type="radio" id="q1option4" name="q1correctAnswer" value="q1option4"></input>
-                <label htmlFor="q1option4">{this.state.data[this.state.currentQuestion].answer[3]}</label>
-              </div>
+              <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>{currentQuestion + 1}.</span></h5>
+              <p className="questionText">{data[currentQuestion].question}</p>
+              <p className="marks">({data[currentQuestion].marks} marks)</p>
+              {this.renderOptions()}
             </div>
-          ) : (this.state.data[this.state.currentQuestion].image !== null && this.state.data[this.state.currentQuestion].table === null) ? (
+          ) : (data[currentQuestion].image !== null && data[currentQuestion].table === null) ? (
             <div className="questionBody">
-              <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>{this.state.currentQuestion + 1}.</span></h5>
-              <p className="questionText">{this.state.data[this.state.currentQuestion].question}</p>
-              <p className="marks">({this.state.data[this.state.currentQuestion].marks} marks)</p>
-              <img className="imagesForQuestion" src={require('../' + this.state.data[this.state.currentQuestion].image)} alt="question description" /><br />
+              <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>{currentQuestion + 1}.</span></h5>
+              <p className="questionText">{data[currentQuestion].question}</p>
+              <p className="marks">({data[currentQuestion].marks} marks)</p>
+              <img className="imagesForQuestion" src={require('../' + data[currentQuestion].image)} alt="question description" /><br />
 
-              <div className="options">
-                <input type="radio" id="q2option1" name="q2correctAnswer" value="q2option1"></input>
-                <label htmlFor="q2option1">{this.state.data[this.state.currentQuestion].answer[0]}</label><br />
-                <input type="radio" id="q2option2" name="q2correctAnswer" value="q2option2"></input>
-                <label htmlFor="q2option2">{this.state.data[this.state.currentQuestion].answer[1]}</label><br />
-                <input type="radio" id="q2option3" name="q2correctAnswer" value="q2option3"></input>
-                <label htmlFor="q2option3">{this.state.data[this.state.currentQuestion].answer[2]}</label><br />
-                <input type="radio" id="q2option4" name="q2correctAnswer" value="q2option4"></input>
-                <label htmlFor="q2option4">{this.state.data[this.state.currentQuestion].answer[3]}</label>
-              </div>
+              {this.renderOptions()}
             </div>
-          ) : (this.state.data[this.state.currentQuestion].image === null && this.state.data[this.state.currentQuestion].table !== null) ? (
+          ) : (data[currentQuestion].image === null && data[currentQuestion].table !== null) ? (
             <div className="questionBody">
-              <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>{this.state.currentQuestion + 1}.</span></h5>
-              <p className="questionText">{this.state.data[this.state.currentQuestion].question}</p>
-              <p className="marks">({this.state.data[this.state.currentQuestion].marks} marks)</p>
+              <h5 className="questionNumber"><span style={{ backgroundColor: '#020718', padding: '10px' }}>{currentQuestion + 1}.</span></h5>
+              <p className="questionText">{data[currentQuestion].question}</p>
+              <p className="marks">({data[currentQuestion].marks} marks)</p>
               <table>
                 <tbody>
                   {this.renderTableData()}
                 </tbody>
               </table>
 
-              <div className="options">
-                <input type="radio" id="q3option1" name="q3correctAnswer" value="q3option1"></input>
-                <label htmlFor="q3option1">{this.state.data[this.state.currentQuestion].answer[0]}</label><br />
-                <input type="radio" id="q3option2" name="q3correctAnswer" value="q3option2"></input>
-                <label htmlFor="q3option2">{this.state.data[this.state.currentQuestion].answer[1]}</label><br />
-                <input type="radio" id="q3option3" name="q3correctAnswer" value="q3option3"></input>
-                <label htmlFor="q3option3">{this.state.data[this.state.currentQuestion].answer[2]}</label><br />
-                <input type="radio" id="q3option4" name="q3correctAnswer" value="q3option4"></input>
-                <label htmlFor="q3option4">{this.state.data[this.state.currentQuestion].answer[3]}</label>
-              </div>
+              {this.renderOptions()}
             </div>
           ) : (<div></div>)
           }
 
           <div>
-            <button type="button" onClick={this.decrement}>Previous</button>
-            <button type="button" onClick={this.increment}>{this.state.isSubmit}</button>
+            <button className="buttons" type="button" onClick={this.decrement}>Previous</button>
+            <button className="buttons" type="button" onClick={this.increment}>{this.state.isSubmit}</button>
           </div>
         </form>
       </div>
